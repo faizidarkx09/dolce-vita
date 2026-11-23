@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elena &amp; Marcus — Dolce Vita Wedding</title>
+<meta name="description" content="Elena and Marcus are getting married! Join us on 14 September 2027 at Villa Serena, Lake Como.">
+<meta property="og:title" content="Elena &amp; Marcus — Dolce Vita Wedding">
+<meta property="og:description" content="Elena and Marcus are getting married! 14 September 2027, Villa Serena, Lake Como.">
+<meta property="og:image" content="images/hero.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Ovo&family=Rufina:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2364a0bd'/%3E%3Cpath d='M16 24s-8-5.5-8-11a4.5 4.5 0 0 1 8-3 4.5 4.5 0 0 1 8 3c0 5.5-8 11-8 11z' fill='%23fffdfb'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ============ 1. ENVELOPE INTRO (mobile only, <981px) ============ -->
+<div id="envelope" class="envelope" role="dialog" aria-label="Wedding invitation envelope">
+  <div class="env-flap env-flap-top"></div>
+  <div class="env-flap env-flap-right"></div>
+  <div class="env-flap env-flap-bottom"></div>
+  <div class="env-flap env-flap-left"></div>
+  <button id="sealButton" class="env-seal" aria-label="Click to open the invitation">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <defs>
+        <radialGradient id="sealGold" cx="38%" cy="32%" r="75%">
+          <stop offset="0%" stop-color="#f5ede0"/>
+          <stop offset="35%" stop-color="#e8d8a8"/>
+          <stop offset="70%" stop-color="#d4c090"/>
+          <stop offset="100%" stop-color="#b89050"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="47" fill="url(#sealGold)"/>
+      <circle cx="50" cy="50" r="41" fill="none" stroke="#a87f3d" stroke-width="1.5" opacity="0.55"/>
+      <path d="M50 72 C38 60 30 51 30 42 C30 34 36 29 42 29 C46 29 49 31 50 34 C51 31 54 29 58 29 C64 29 70 34 70 42 C70 51 62 60 50 72 Z" fill="#8a6a2f" opacity="0.85"/>
+    </svg>
+  </button>
+  <p class="env-text">Click to open</p>
+  <button id="skipIntro" class="env-skip" type="button">Skip intro</button>
+</div>
+
+<!-- Background music: starts when the envelope opens (mobile). -->
+<audio id="invitation-audio" loop preload="none" src="audio/wedding-piano.mp3"></audio>
+<button id="audio-control" class="audio-control" type="button" aria-label="Play music" hidden>
+  <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+  <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="#fff"/></svg>
+</button>
+
+<main class="column">
+
+  <!-- ============ 2. HERO ============ -->
+  <header class="hero" id="hero">
+    <div class="hero-media">
+      <img id="heroImg" src="images/hero.jpg" alt="Arched stone terrace over a lake and mountains at sunrise" decoding="async">
+      <canvas id="petals" aria-hidden="true"></canvas>
+      <div class="hero-birds" aria-hidden="true">
+        <span class="bird b1">⌄</span><span class="bird b2">⌄</span><span class="bird b3">⌄</span>
+      </div>
+      <div class="hero-fade hero-fade-top"></div>
+      <div class="hero-fade hero-fade-bottom"></div>
+    </div>
+    <div class="hero-copy">
+      <h1 class="hero-names">Elena &amp; Marcus</h1>
+      <p class="hero-sub">are getting married!</p>
+    </div>
+  </header>
+
+  <!-- ============ 3. THE DATE — scratch to reveal ============ -->
+  <section id="date" class="section reveal" aria-label="Wedding date">
+    <h2 class="script-title">The Date</h2>
+    <p class="scratch-hint">✦ Scratch to reveal the date ✦</p>
+    <div class="scratch-row" id="scratchRow">
+      <div class="scratch-tile" data-done="false">
+        <div class="scratch-value"><span class="scratch-num">14</span><span class="scratch-lbl">Day</span></div>
+        <canvas class="scratch-canvas" aria-label="Scratch card: day"></canvas>
+      </div>
+      <div class="scratch-tile" data-done="false">
+        <div class="scratch-value"><span class="scratch-num scratch-month">September</span><span class="scratch-lbl">Month</span></div>
+        <canvas class="scratch-canvas" aria-label="Scratch card: month"></canvas>
+      </div>
+      <div class="scratch-tile" data-done="false">
+        <div class="scratch-value"><span class="scratch-num">2027</span><span class="scratch-lbl">Year</span></div>
+        <canvas class="scratch-canvas" aria-label="Scratch card: year"></canvas>
+      </div>
+    </div>
+    <p class="married" id="marriedMsg" aria-live="polite">You&rsquo;re invited!</p>
+    <div class="gold-flash" id="goldFlash" aria-hidden="true"></div>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+  </section>
+
+  <!-- ============ 4. WELCOME LETTER ============ -->
+  <section id="letter" class="section letter reveal" aria-label="Welcome letter">
+    <div class="letter-card">
+      <img class="letter-ornament" src="images/ornament-floral.png" alt="" decoding="async">
+      <h2 class="script-title letter-heading">Dear friends and family,</h2>
+      <p class="letter-body">As we count down the days to our wedding, our hearts are full of gratitude for the people who have shaped our story. Your love, your laughter and your friendship mean more to us than words can say, and we would be so happy to celebrate the beginning of our married life with you beside us.</p>
+      <img class="letter-ornament letter-ornament-small float-anim" src="images/ornament-corner.png" alt="" decoding="async">
+    </div>
+  </section>
+
+  <!-- ============ 5. SCHEDULE OF EVENTS ============ -->
+  <section id="schedule" class="section reveal" aria-label="Schedule of events">
+    <h2 class="script-title">Schedule of Events</h2>
+    <div class="timeline">
+      <div class="tl-item tl-left">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-time">16:30</div>
+        <div class="tl-name">Opening of the doors</div>
+      </div>
+      <div class="tl-item tl-right">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-time">17:00</div>
+        <div class="tl-name">Ceremony</div>
+      </div>
+      <div class="tl-item tl-left">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-time">18:00</div>
+        <div class="tl-name">Cocktail and dancing time</div>
+      </div>
+      <div class="tl-item tl-right">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-time">20:00</div>
+        <div class="tl-name">Dinner</div>
+      </div>
+      <div class="tl-item tl-left">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-time">21:00</div>
+        <div class="tl-name">Party and Open Bar</div>
+      </div>
+      <div class="tl-item tl-right">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-time">23:00</div>
+        <div class="tl-name">End of the celebration</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. WEDDING VENUE ============ -->
+  <section id="venue" class="section reveal" aria-label="Wedding venue">
+    <h2 class="script-title">Wedding Venue</h2>
+    <figure class="venue-photo">
+      <img src="images/venue.jpg" alt="Villa Serena, a whitewashed villa with bougainvillea by the sea" loading="lazy" decoding="async">
+    </figure>
+    <p class="venue-name">Villa Serena</p>
+    <p class="venue-addr">Address: Lake Como, Italy</p>
+    <a class="venue-link" href="https://www.google.com/maps/search/?api=1&amp;query=Villa+Serena+Lake+Como+Italy" target="_blank" rel="noopener">View the location</a>
+  </section>
+
+  <!-- ============ 7. DRESS CODE ============ -->
+  <section id="dresscode" class="section reveal" aria-label="Dress code">
+    <h2 class="script-title">Dress Code</h2>
+    <p class="body">We would love it if your outfit echoed the colours of our day &mdash; soft pastels, warm neutrals, and a touch of gold.</p>
+    <img class="dress-ornament float-anim-x" src="images/ornament-floral.png" alt="" loading="lazy" decoding="async">
+  </section>
+
+  <!-- ============ 8. PHOTO GALLERY SLIDER ============ -->
+  <section id="gallery" class="section reveal" aria-label="Photo gallery">
+    <div class="slider" id="gallerySlider">
+      <div class="slides" id="slides">
+        <figure class="slide"><img src="images/gallery-01.jpg" alt="The couple dancing under string lights at dusk" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-02.jpg" alt="Wedding table with candles and flowers on a lakeside terrace" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-03.jpg" alt="Bridal bouquet of white and blush roses" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-04.jpg" alt="The couple walking down a cypress-lined garden path" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-05.jpg" alt="Two gold wedding rings on white rose petals" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-06.jpg" alt="Lakeside ceremony arch with white flowers" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-07.jpg" alt="The couple on a stone balcony over the mountains at sunset" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-08.jpg" alt="Champagne glasses and wedding cake on a sunlit table" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-09.jpg" alt="Paper lanterns floating over a lake at dusk" loading="lazy" decoding="async"></figure>
+        <figure class="slide"><img src="images/gallery-10.jpg" alt="The couple holding hands with a white bouquet" loading="lazy" decoding="async"></figure>
+      </div>
+      <button class="slider-arrow slider-prev" id="sliderPrev" type="button" aria-label="Previous photo">&#8249;</button>
+      <button class="slider-arrow slider-next" id="sliderNext" type="button" aria-label="Next photo">&#8250;</button>
+      <div class="slider-dots" id="sliderDots" role="tablist" aria-label="Gallery slides"></div>
+    </div>
+  </section>
+
+  <!-- ============ 9. COLOURS ============ -->
+  <section id="colours" class="section reveal" aria-label="Dress code colours">
+    <p class="colours-label">Colours:</p>
+    <div class="swatches" id="swatches">
+      <span class="swatch" style="--c:#7ebbfa" title="Sky blue"></span>
+      <span class="swatch" style="--c:#afcff1" title="Pale blue"></span>
+      <span class="swatch" style="--c:#f2cac9" title="Blush pink"></span>
+      <span class="swatch" style="--c:#f5d9b1" title="Sand"></span>
+      <span class="swatch" style="--c:#faf1db" title="Cream"></span>
+    </div>
+    <p class="body colours-body">Ladies: Light, elegant summer dresses in pastel tones &mdash; a hat and sunglasses will keep you comfortable in the afternoon sun. Gentlemen: A suit or smart shirt in classic shades &mdash; grey, blue, brown or beige all fit the day beautifully.</p>
+  </section>
+
+  <!-- ============ 10. RSVP CALL TO ACTION ============ -->
+  <section id="rsvp" class="section reveal" aria-label="RSVP">
+    <p class="rsvp-intro reveal-up">To help us prepare for a joyful celebration, kindly confirm your attendance.</p>
+    <h2 class="script-title">Confirm Your Attendance</h2>
+    <button class="btn-rsvp" id="openRsvp" type="button"><span>RSVP</span></button>
+  </section>
+
+  <!-- ============ 11. CLOSING ============ -->
+  <footer class="closing reveal" aria-label="Closing">
+    <figure class="closing-photo">
+      <img src="images/closing.jpg" alt="Elena and Marcus watching a beach sunset" loading="lazy" decoding="async">
+    </figure>
+    <h2 class="script-title closing-heading">Hope to see you there!</h2>
+    <p class="closing-names">Elena &amp; Marcus</p>
+    <img class="closing-ornament float-anim" src="images/ornament-corner.png" alt="" loading="lazy" decoding="async">
+  </footer>
+
+</main>
+
+<!-- ============ RSVP FORM POPUP ============ -->
+<div class="modal" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button class="modal-close" type="button" data-close aria-label="Close">&times;</button>
+    <img class="modal-header-img" src="images/rsvp-header.jpg" alt="Couple walking on a beach at sunset">
+    <div class="modal-body">
+      <div id="rsvpFormWrap">
+        <h3 id="rsvpTitle">Confirm Your Attendance!</h3>
+        <p class="modal-desc">Please RSVP before August 30</p>
+        <form id="rsvpForm" novalidate>
+          <label class="field-label" for="guestName">Your name</label>
+          <input class="field-input" type="text" id="guestName" name="name" placeholder="Your name" autocomplete="name" required>
+
+          <fieldset class="field-group">
+            <legend class="field-label">Will you come?</legend>
+            <label class="check"><input type="checkbox" name="attend" value="yes"> <span>Yes, I will</span></label>
+            <label class="check"><input type="checkbox" name="attend" value="no"> <span>Unfortunately, I can&rsquo;t :(</span></label>
+            <label class="check"><input type="checkbox" name="attend" value="later"> <span>I&rsquo;ll tell you a bit later</span></label>
+          </fieldset>
+
+          <label class="field-label" for="foodNotes">Do you have any food intolerances?</label>
+          <input class="field-input" type="text" id="foodNotes" name="food" placeholder="Optional">
+
+          <p class="form-error" id="formError" role="alert" hidden></p>
+          <button type="submit" class="btn-submit"><span>Submit</span></button>
+        </form>
+      </div>
+      <div id="rsvpSuccess" class="rsvp-success" hidden>
+        <p class="success-script">Thank you!</p>
+        <p class="success-body" id="successBody">Your RSVP has been saved &mdash; we can&rsquo;t wait to celebrate with you.</p>
+        <button class="btn-submit" type="button" data-close><span>Close</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
