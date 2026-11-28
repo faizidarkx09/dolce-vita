@@ -493,15 +493,8 @@
       if (e.key === 'Escape' && !modal.hidden) close();
     });
 
-    // Single-choice checkboxes (like the reference's RSVP form).
-    var attendBoxes = form.querySelectorAll('input[name="attend"]');
-    attendBoxes.forEach(function (box) {
-      box.addEventListener('change', function () {
-        if (box.checked) {
-          attendBoxes.forEach(function (b) { if (b !== box) b.checked = false; });
-        }
-      });
-    });
+    // 'Will you come?' uses native radio inputs (same name) so the
+    // browser enforces a single choice — no JS exclusivity needed.
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
